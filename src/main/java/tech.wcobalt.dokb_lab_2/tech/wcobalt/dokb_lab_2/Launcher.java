@@ -3,7 +3,9 @@ package tech.wcobalt.dokb_lab_2;
 import com.mysql.cj.jdbc.MysqlDataSource;
 import org.apache.logging.log4j.*;
 import tech.wcobalt.dokb_lab_2.application.*;
+import tech.wcobalt.dokb_lab_2.application.data.DefaultCompanyData;
 import tech.wcobalt.dokb_lab_2.application.data.DefaultTargetData;
+import tech.wcobalt.dokb_lab_2.domain.DefaultCompany;
 import tech.wcobalt.dokb_lab_2.domain.DefaultTarget;
 import tech.wcobalt.dokb_lab_2.persistence.*;
 import tech.wcobalt.dokb_lab_2.ui.Command;
@@ -50,8 +52,9 @@ public class Launcher {
             RetrieveTargetUseCase retrieveTargetUseCase = new DefaultRetrieveTargetUseCase(targetRetriever,
                     DefaultTargetData::new);
 
-            CompanyRetriever companyRetriever = new DefaultCompanyRetriever(connection);
-            RetrieveCompanyUseCase retrieveCompanyUseCase = new DefaultRetrieveCompanyUseCase(companyRetriever);
+            CompanyRetriever companyRetriever = new DefaultCompanyRetriever(connection, DefaultCompany::new);
+            RetrieveCompanyUseCase retrieveCompanyUseCase = new DefaultRetrieveCompanyUseCase(companyRetriever,
+                    DefaultCompanyData::new);
 
             DischargeRetriever dischargeRetriever = new DefaultDischargeRetriever(connection);
             RetrieveDischargeUseCase retrieveDischargeUseCase = new DefaultRetrieveDischargeUseCase(dischargeRetriever);
