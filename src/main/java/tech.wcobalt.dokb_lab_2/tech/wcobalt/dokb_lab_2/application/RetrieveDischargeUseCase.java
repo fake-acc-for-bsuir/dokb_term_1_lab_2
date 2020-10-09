@@ -10,6 +10,6 @@ public interface RetrieveDischargeUseCase {
 
     List<DischargeData> retrieveDischargesByCompany(int company) throws ApplicationException;
 
-    List<DischargeData> retrieveDischargesBYCompanyAndTime(int company, Date since, Date until)
+    List<DischargeData> retrieveDischargesByCompanyAndTime(int company, Date since, Date until)
             throws ApplicationException;
 }

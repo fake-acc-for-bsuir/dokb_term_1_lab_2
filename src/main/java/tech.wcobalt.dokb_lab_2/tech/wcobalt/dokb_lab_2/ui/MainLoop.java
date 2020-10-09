@@ -4,4 +4,6 @@ public interface MainLoop {
     void run();
 
     void stop();
+
+    void addCommand(Command command);
 }
