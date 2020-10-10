@@ -70,12 +70,19 @@ public class Launcher {
             ClassifiedPollutantRetriever classifiedPollutantRetriever = new DefaultClassifiedPollutantRetriever(connection,
                     DefaultClassifiedPollutant::new);
             RetrieveClassifiedPollutantUseCase retrieveClassifiedPollutantUseCase
-                    = new DefaultRetrieveClassifiedPollutantUseCase(classifiedPollutantRetriever, DefaultClassifiedPollutantData::new);
+                    = new DefaultRetrieveClassifiedPollutantUseCase(classifiedPollutantRetriever,
+                    DefaultClassifiedPollutantData::new);
+
+            DischargedPollutantRetriever dischargedPollutantRetriever = new DefaultDischargedPollutantRetriever(connection,
+                    DefaultDischargedPollutant::new);
+            RetrieveDischargedPollutantUseCase retrieveDischargedPollutantUseCase
+                    = new DefaultRetrieveDischargedPollutantUseCase(dischargedPollutantRetriever,
+                    DefaultDischargedPollutantData::new);
 
             ListView listView = new DefaultListView();
             ListController listController = new DefaultListController(listView, retrieveTargetUseCase,
                     retrievePollutantUseCase, retrieveCompanyUseCase, retrieveDischargeUseCase,
-                    retrieveClassifiedPollutantUseCase);
+                    retrieveClassifiedPollutantUseCase, retrieveDischargedPollutantUseCase);
             Command listCommand = new ListCommand(listController);
 
             //show command
@@ -83,6 +90,7 @@ public class Launcher {
             ShowController showController = new DefaultShowController(showView, retrieveDischargeUseCase);
             Command showCommand = new ShowCommand(showController);
 
+            //main loop
             MainLoop mainLoop = new DefaultMainLoop();
             mainLoop.addCommand(listCommand);
             mainLoop.addCommand(showCommand);

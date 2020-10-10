@@ -17,6 +17,7 @@ public class DefaultListController implements ListController {
     private RetrieveCompanyUseCase retrieveCompanyUseCase;
     private RetrieveDischargeUseCase retrieveDischargeUseCase;
     private RetrieveClassifiedPollutantUseCase retrieveClassifiedPollutantUseCase;
+    private RetrieveDischargedPollutantUseCase retrieveDischargedPollutantUseCase;
 
     private static final Logger logger = LogManager.getLogger(DefaultListController.class.getName());
 
@@ -24,13 +25,15 @@ public class DefaultListController implements ListController {
                                  RetrievePollutantUseCase retrievePollutantUseCase,
                                  RetrieveCompanyUseCase retrieveCompanyUseCase,
                                  RetrieveDischargeUseCase retrieveDischargeUseCase,
-                                 RetrieveClassifiedPollutantUseCase retrieveClassifiedPollutantUseCase) {
+                                 RetrieveClassifiedPollutantUseCase retrieveClassifiedPollutantUseCase,
+                                 RetrieveDischargedPollutantUseCase retrieveDischargedPollutantUseCase) {
         this.listView = listView;
         this.retrieveTargetUseCase = retrieveTargetUseCase;
         this.retrievePollutantUseCase = retrievePollutantUseCase;
         this.retrieveCompanyUseCase = retrieveCompanyUseCase;
         this.retrieveDischargeUseCase = retrieveDischargeUseCase;
         this.retrieveClassifiedPollutantUseCase = retrieveClassifiedPollutantUseCase;
+        this.retrieveDischargedPollutantUseCase = retrieveDischargedPollutantUseCase;
     }
 
     @Override
@@ -70,7 +73,7 @@ public class DefaultListController implements ListController {
             for (CompanyData company : companies)
                 listView.showCompany(company);
         } catch (ApplicationException exc) {
-            logger.error("Unable to retrieve company", exc);
+            logger.error("Unable to retrieve companies", exc);
         }
     }
 
@@ -107,17 +110,22 @@ public class DefaultListController implements ListController {
                 listView.showClassifiedPollutant(classifiedPollutantData);
 
         } catch (ApplicationException exc) {
-            logger.error("Unable to retrieve discharges by company and time", exc);
+            logger.error("Unable to retrieve classified pollutants by company", exc);
         }
     }
 
     @Override
     public void listDischargedPollutantsByDischarge(int discharge) {
-  /*      try {
+        try {
+            List<DischargedPollutantData> dischargedPollutants
+                    = retrieveDischargedPollutantUseCase.retrieveDischargedPollutantsByDischarge(discharge);
+
+            for (DischargedPollutantData dischargedPollutant : dischargedPollutants)
+                listView.showDischargedPollutant(dischargedPollutant);
 
         } catch (ApplicationException exc) {
-            logger.error("Unable to retrieve discharges by company and time", exc);
-        }*/
+            logger.error("Unable to retrieve discharged pollutants by discharge", exc);
+        }
     }
 
     private void showDischarges(List<DischargeData> discharges) {

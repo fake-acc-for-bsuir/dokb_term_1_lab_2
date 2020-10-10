@@ -7,5 +7,5 @@ import java.util.List;
 public interface RetrieveDischargedPollutantUseCase {
     DischargedPollutantData retrieveDischargedPollutant(int id) throws ApplicationException;
 
-    List<DischargedPollutantData> retrieveDischargedPollutantsByCompany(int company) throws ApplicationException;
+    List<DischargedPollutantData> retrieveDischargedPollutantsByDischarge(int discharge) throws ApplicationException;
 }

@@ -16,7 +16,7 @@ public class ListCommand implements Command {
     private final String COMPANIES = "companies";
     private final String DISCHARGES = "discharges";
     private final String CLASSIFIED_POLLUTANTS = "classified_pollutants";
-    private final String DISCHARGED_POLLUTANTS = "discharged_pollutant";
+    private final String DISCHARGED_POLLUTANTS = "discharged_pollutants";
     private final String UNDEFINED_COMMAND = "The subcommand is undefined";
     private final String WRONG_FORMAT = "Wrong format of the command";
 
