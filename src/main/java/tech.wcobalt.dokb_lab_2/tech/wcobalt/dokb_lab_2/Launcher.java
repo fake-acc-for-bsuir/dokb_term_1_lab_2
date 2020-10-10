@@ -3,14 +3,8 @@ package tech.wcobalt.dokb_lab_2;
 import com.mysql.cj.jdbc.MysqlDataSource;
 import org.apache.logging.log4j.*;
 import tech.wcobalt.dokb_lab_2.application.*;
-import tech.wcobalt.dokb_lab_2.application.data.DefaultCompanyData;
-import tech.wcobalt.dokb_lab_2.application.data.DefaultDischargeData;
-import tech.wcobalt.dokb_lab_2.application.data.DefaultPollutantData;
-import tech.wcobalt.dokb_lab_2.application.data.DefaultTargetData;
-import tech.wcobalt.dokb_lab_2.domain.DefaultCompany;
-import tech.wcobalt.dokb_lab_2.domain.DefaultDischarge;
-import tech.wcobalt.dokb_lab_2.domain.DefaultPollutant;
-import tech.wcobalt.dokb_lab_2.domain.DefaultTarget;
+import tech.wcobalt.dokb_lab_2.application.data.*;
+import tech.wcobalt.dokb_lab_2.domain.*;
 import tech.wcobalt.dokb_lab_2.persistence.*;
 import tech.wcobalt.dokb_lab_2.ui.Command;
 import tech.wcobalt.dokb_lab_2.ui.DefaultMainLoop;
@@ -73,9 +67,15 @@ public class Launcher {
             RetrieveDischargeUseCase retrieveDischargeUseCase = new DefaultRetrieveDischargeUseCase(dischargeRetriever,
                     DefaultDischargeData::new);
 
+            ClassifiedPollutantRetriever classifiedPollutantRetriever = new DefaultClassifiedPollutantRetriever(connection,
+                    DefaultClassifiedPollutant::new);
+            RetrieveClassifiedPollutantUseCase retrieveClassifiedPollutantUseCase
+                    = new DefaultRetrieveClassifiedPollutantUseCase(classifiedPollutantRetriever, DefaultClassifiedPollutantData::new);
+
             ListView listView = new DefaultListView();
             ListController listController = new DefaultListController(listView, retrieveTargetUseCase,
-                    retrievePollutantUseCase, retrieveCompanyUseCase, retrieveDischargeUseCase);
+                    retrievePollutantUseCase, retrieveCompanyUseCase, retrieveDischargeUseCase,
+                    retrieveClassifiedPollutantUseCase);
             Command listCommand = new ListCommand(listController);
 
             //show command

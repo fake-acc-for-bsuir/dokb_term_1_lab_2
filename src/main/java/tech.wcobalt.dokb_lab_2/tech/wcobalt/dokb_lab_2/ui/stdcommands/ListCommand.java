@@ -15,6 +15,8 @@ public class ListCommand implements Command {
     private final String POLLUTANTS = "pollutants";
     private final String COMPANIES = "companies";
     private final String DISCHARGES = "discharges";
+    private final String CLASSIFIED_POLLUTANTS = "classified_pollutants";
+    private final String DISCHARGED_POLLUTANTS = "discharged_pollutant";
     private final String UNDEFINED_COMMAND = "The subcommand is undefined";
     private final String WRONG_FORMAT = "Wrong format of the command";
 
@@ -46,31 +48,46 @@ public class ListCommand implements Command {
             String subject = splitQuery[1].toLowerCase();
 
             switch (subject) {
-                case TARGETS:
-                    listController.listTargets();
-
-                    break;
-
-                case POLLUTANTS:
-                    listController.listPollutants();
-
-                    break;
-
-                case COMPANIES:
-                    listController.listCompanies();
-
-                    break;
-
-                case DISCHARGES:
-                    handleDischarges(splitQuery);
-
-                    break;
-
-                default:
-                    printUndefinedCommand();
+                case TARGETS -> listController.listTargets();
+                case POLLUTANTS -> listController.listPollutants();
+                case COMPANIES -> listController.listCompanies();
+                case DISCHARGES -> handleDischarges(splitQuery);
+                case CLASSIFIED_POLLUTANTS -> handleClassifiedPollutants(splitQuery);
+                case DISCHARGED_POLLUTANTS -> handleDischargedPollutant(splitQuery);
+                default -> printUndefinedCommand();
             }
         } else
             printUndefinedCommand();
+    }
+
+    private void handleClassifiedPollutants(String[] splitQuery) {
+        if (splitQuery.length == 3) {
+            try {
+                int company = Integer.parseInt(splitQuery[2]);
+
+                listController.listClassifiedPollutantsByCompany(company);
+            } catch (NumberFormatException exc) {
+                logger.error("Input: " + splitQuery[2], exc);
+
+                printWrongFormat();
+            }
+        } else
+            printWrongFormat();
+    }
+
+    private void handleDischargedPollutant(String[] splitQuery) {
+        if (splitQuery.length == 3) {
+            try {
+                int discharge = Integer.parseInt(splitQuery[2]);
+
+                listController.listDischargedPollutantsByDischarge(discharge);
+            } catch (NumberFormatException exc) {
+                logger.error("Input: " + splitQuery[2], exc);
+
+                printWrongFormat();
+            }
+        } else
+            printWrongFormat();
     }
 
     private void handleDischarges(String[] splitQuery) {

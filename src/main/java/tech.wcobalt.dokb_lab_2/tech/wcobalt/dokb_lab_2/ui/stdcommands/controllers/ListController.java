@@ -16,4 +16,8 @@ public interface ListController extends Controller {
     void listDischargesByCompany(int company);
 
     void listDischargesByCompanyAndTime(int company, Date since, Date until);
+
+    void listClassifiedPollutantsByCompany(int company);
+
+    void listDischargedPollutantsByDischarge(int discharge);
 }

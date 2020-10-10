@@ -34,7 +34,7 @@ public class DefaultDischargeRetriever implements DischargeRetriever {
             if (resultSet.next())
                 return convertResultSetToDischarge(resultSet);
             else
-                throw new PersistenceException("No company with such id was found");
+                throw new PersistenceException("No discharge with such id was found");
         } catch (SQLException exc) {
             String mes = "Unable to retrieve data from MySQL";
 
