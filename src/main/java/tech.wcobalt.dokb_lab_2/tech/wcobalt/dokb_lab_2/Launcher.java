@@ -4,9 +4,11 @@ import com.mysql.cj.jdbc.MysqlDataSource;
 import org.apache.logging.log4j.*;
 import tech.wcobalt.dokb_lab_2.application.*;
 import tech.wcobalt.dokb_lab_2.application.data.DefaultCompanyData;
+import tech.wcobalt.dokb_lab_2.application.data.DefaultDischargeData;
 import tech.wcobalt.dokb_lab_2.application.data.DefaultPollutantData;
 import tech.wcobalt.dokb_lab_2.application.data.DefaultTargetData;
 import tech.wcobalt.dokb_lab_2.domain.DefaultCompany;
+import tech.wcobalt.dokb_lab_2.domain.DefaultDischarge;
 import tech.wcobalt.dokb_lab_2.domain.DefaultPollutant;
 import tech.wcobalt.dokb_lab_2.domain.DefaultTarget;
 import tech.wcobalt.dokb_lab_2.persistence.*;
@@ -59,8 +61,9 @@ public class Launcher {
             RetrieveCompanyUseCase retrieveCompanyUseCase = new DefaultRetrieveCompanyUseCase(companyRetriever,
                     DefaultCompanyData::new);
 
-            DischargeRetriever dischargeRetriever = new DefaultDischargeRetriever(connection);
-            RetrieveDischargeUseCase retrieveDischargeUseCase = new DefaultRetrieveDischargeUseCase(dischargeRetriever);
+            DischargeRetriever dischargeRetriever = new DefaultDischargeRetriever(connection, DefaultDischarge::new);
+            RetrieveDischargeUseCase retrieveDischargeUseCase = new DefaultRetrieveDischargeUseCase(dischargeRetriever,
+                    DefaultDischargeData::new);
 
             ListView listView = new DefaultListView();
             ListController listPresenter = new DefaultListController(listView, retrieveTargetUseCase,
