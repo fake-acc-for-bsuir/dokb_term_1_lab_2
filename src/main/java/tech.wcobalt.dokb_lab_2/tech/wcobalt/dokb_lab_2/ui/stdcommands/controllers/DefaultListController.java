@@ -3,10 +3,8 @@ package tech.wcobalt.dokb_lab_2.ui.stdcommands.controllers;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import tech.wcobalt.dokb_lab_2.application.*;
-import tech.wcobalt.dokb_lab_2.application.data.CompanyData;
-import tech.wcobalt.dokb_lab_2.application.data.DischargeData;
-import tech.wcobalt.dokb_lab_2.application.data.PollutantData;
-import tech.wcobalt.dokb_lab_2.application.data.TargetData;
+import tech.wcobalt.dokb_lab_2.application.data.*;
+import tech.wcobalt.dokb_lab_2.domain.ClassifiedPollutant;
 import tech.wcobalt.dokb_lab_2.ui.stdcommands.views.ListView;
 
 import java.util.Date;
@@ -18,18 +16,24 @@ public class DefaultListController implements ListController {
     private RetrievePollutantUseCase retrievePollutantUseCase;
     private RetrieveCompanyUseCase retrieveCompanyUseCase;
     private RetrieveDischargeUseCase retrieveDischargeUseCase;
+    private RetrieveClassifiedPollutantUseCase retrieveClassifiedPollutantUseCase;
+    private RetrieveDischargedPollutantUseCase retrieveDischargedPollutantUseCase;
 
     private static final Logger logger = LogManager.getLogger(DefaultListController.class.getName());
 
     public DefaultListController(ListView listView, RetrieveTargetUseCase retrieveTargetUseCase,
                                  RetrievePollutantUseCase retrievePollutantUseCase,
                                  RetrieveCompanyUseCase retrieveCompanyUseCase,
-                                 RetrieveDischargeUseCase retrieveDischargeUseCase) {
+                                 RetrieveDischargeUseCase retrieveDischargeUseCase,
+                                 RetrieveClassifiedPollutantUseCase retrieveClassifiedPollutantUseCase,
+                                 RetrieveDischargedPollutantUseCase retrieveDischargedPollutantUseCase) {
         this.listView = listView;
         this.retrieveTargetUseCase = retrieveTargetUseCase;
         this.retrievePollutantUseCase = retrievePollutantUseCase;
         this.retrieveCompanyUseCase = retrieveCompanyUseCase;
         this.retrieveDischargeUseCase = retrieveDischargeUseCase;
+        this.retrieveClassifiedPollutantUseCase = retrieveClassifiedPollutantUseCase;
+        this.retrieveDischargedPollutantUseCase = retrieveDischargedPollutantUseCase;
     }
 
     @Override
@@ -69,7 +73,7 @@ public class DefaultListController implements ListController {
             for (CompanyData company : companies)
                 listView.showCompany(company);
         } catch (ApplicationException exc) {
-            logger.error("Unable to retrieve company", exc);
+            logger.error("Unable to retrieve companies", exc);
         }
     }
 
@@ -93,6 +97,34 @@ public class DefaultListController implements ListController {
             showDischarges(discharges);
         } catch (ApplicationException exc) {
             logger.error("Unable to retrieve discharges by company and time", exc);
+        }
+    }
+
+    @Override
+    public void listClassifiedPollutantsByCompany(int company) {
+        try {
+            List<ClassifiedPollutantData> classifiedPollutants
+                    = retrieveClassifiedPollutantUseCase.retrieveClassifiedPollutantsByCompany(company);
+
+            for (ClassifiedPollutantData classifiedPollutantData : classifiedPollutants)
+                listView.showClassifiedPollutant(classifiedPollutantData);
+
+        } catch (ApplicationException exc) {
+            logger.error("Unable to retrieve classified pollutants by company", exc);
+        }
+    }
+
+    @Override
+    public void listDischargedPollutantsByDischarge(int discharge) {
+        try {
+            List<DischargedPollutantData> dischargedPollutants
+                    = retrieveDischargedPollutantUseCase.retrieveDischargedPollutantsByDischarge(discharge);
+
+            for (DischargedPollutantData dischargedPollutant : dischargedPollutants)
+                listView.showDischargedPollutant(dischargedPollutant);
+
+        } catch (ApplicationException exc) {
+            logger.error("Unable to retrieve discharged pollutants by discharge", exc);
         }
     }
 

@@ -1,9 +1,6 @@
 package tech.wcobalt.dokb_lab_2.ui.stdcommands.views;
 
-import tech.wcobalt.dokb_lab_2.application.data.CompanyData;
-import tech.wcobalt.dokb_lab_2.application.data.DischargeData;
-import tech.wcobalt.dokb_lab_2.application.data.PollutantData;
-import tech.wcobalt.dokb_lab_2.application.data.TargetData;
+import tech.wcobalt.dokb_lab_2.application.data.*;
 
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -48,5 +45,25 @@ public class DefaultListView implements ListView {
                 ", ANGL: " + numberFormat.format(dischargeData.getAngle()) + " deg" +
                 ", DSSF: " + numberFormat.format(dischargeData.getDistanceToSurface()) +
                 ", DSSR: " + numberFormat.format(dischargeData.getDistanceToShore()));
+    }
+
+    @Override
+    public void showClassifiedPollutant(ClassifiedPollutantData classifiedPollutantData) {
+        System.out.println("ID: " + classifiedPollutantData.getId() +
+                ", POLL: " + classifiedPollutantData.getPollutant() +
+                ", COMP: " + classifiedPollutantData.getCompany() +
+                ", DNCL: " + classifiedPollutantData.getDangerClass() +
+                ", LFVG: " + classifiedPollutantData.getLfvGroup());
+    }
+
+    @Override
+    public void showDischargedPollutant(DischargedPollutantData dischargedPollutantData) {
+        System.out.println("ID: " + dischargedPollutantData.getId() +
+                ", DSRG: " + dischargedPollutantData.getDischarge() +
+                ", POLL: " + dischargedPollutantData.getPollutant() +
+                ", BCTN: " + dischargedPollutantData.getBackgroundConcentration() +
+                ", CTN: " + dischargedPollutantData.getConcentration() +
+                ", MPC: " + dischargedPollutantData.getMpc() +
+                ", NCC: " + dischargedPollutantData.getNcc());
     }
 }
