@@ -4,8 +4,10 @@ import com.mysql.cj.jdbc.MysqlDataSource;
 import org.apache.logging.log4j.*;
 import tech.wcobalt.dokb_lab_2.application.*;
 import tech.wcobalt.dokb_lab_2.application.data.DefaultCompanyData;
+import tech.wcobalt.dokb_lab_2.application.data.DefaultPollutantData;
 import tech.wcobalt.dokb_lab_2.application.data.DefaultTargetData;
 import tech.wcobalt.dokb_lab_2.domain.DefaultCompany;
+import tech.wcobalt.dokb_lab_2.domain.DefaultPollutant;
 import tech.wcobalt.dokb_lab_2.domain.DefaultTarget;
 import tech.wcobalt.dokb_lab_2.persistence.*;
 import tech.wcobalt.dokb_lab_2.ui.Command;
@@ -28,7 +30,7 @@ public class Launcher {
                     "create (company|discharge|classified_pollutant|discharged_pollutant)\n" +
                     "edit (company|discharge|classified_pollutant|discharged_pollutant) <id>\n" +
                     "remove (company|discharge|classified_pollutant|discharged_pollutant) <id>\n" +
-                    "list (targets|pollutants|companies|discharges (<company_id>|<since_date> <until_date>))\n" +
+                    "list (targets|pollutants|companies|discharges (<company_id>|<since_date> <until_date>)) // date format: dd/MM/yyyy\n" +
                     "show discharge <id>";
 
     public static void main(String... args) {
@@ -45,8 +47,9 @@ public class Launcher {
             Connection connection = dataSource.getConnection();
 
             //composing all needed objects
-            PollutantRetriever pollutantRetriever = new DefaultPollutantRetriever(connection);
-            RetrievePollutantUseCase retrievePollutantUseCase = new DefaultRetrievePollutantUseCase(pollutantRetriever);
+            PollutantRetriever pollutantRetriever = new DefaultPollutantRetriever(connection, DefaultPollutant::new);
+            RetrievePollutantUseCase retrievePollutantUseCase = new DefaultRetrievePollutantUseCase(pollutantRetriever,
+                    DefaultPollutantData::new);
 
             TargetRetriever targetRetriever = new DefaultTargetRetriever(connection, DefaultTarget::new);
             RetrieveTargetUseCase retrieveTargetUseCase = new DefaultRetrieveTargetUseCase(targetRetriever,
