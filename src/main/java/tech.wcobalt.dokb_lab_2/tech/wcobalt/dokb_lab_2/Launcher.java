@@ -16,10 +16,15 @@ import tech.wcobalt.dokb_lab_2.ui.Command;
 import tech.wcobalt.dokb_lab_2.ui.DefaultMainLoop;
 import tech.wcobalt.dokb_lab_2.ui.MainLoop;
 import tech.wcobalt.dokb_lab_2.ui.stdcommands.ListCommand;
-import tech.wcobalt.dokb_lab_2.ui.stdcommands.presenters.DefaultListController;
-import tech.wcobalt.dokb_lab_2.ui.stdcommands.presenters.DefaultListView;
-import tech.wcobalt.dokb_lab_2.ui.stdcommands.presenters.ListController;
-import tech.wcobalt.dokb_lab_2.ui.stdcommands.presenters.ListView;
+import tech.wcobalt.dokb_lab_2.ui.stdcommands.ShowCommand;
+import tech.wcobalt.dokb_lab_2.ui.stdcommands.controllers.DefaultListController;
+import tech.wcobalt.dokb_lab_2.ui.stdcommands.controllers.DefaultShowController;
+import tech.wcobalt.dokb_lab_2.ui.stdcommands.controllers.ShowController;
+import tech.wcobalt.dokb_lab_2.ui.stdcommands.views.DefaultListView;
+import tech.wcobalt.dokb_lab_2.ui.stdcommands.controllers.ListController;
+import tech.wcobalt.dokb_lab_2.ui.stdcommands.views.DefaultShowView;
+import tech.wcobalt.dokb_lab_2.ui.stdcommands.views.ListView;
+import tech.wcobalt.dokb_lab_2.ui.stdcommands.views.ShowView;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -32,7 +37,8 @@ public class Launcher {
                     "create (company|discharge|classified_pollutant|discharged_pollutant)\n" +
                     "edit (company|discharge|classified_pollutant|discharged_pollutant) <id>\n" +
                     "remove (company|discharge|classified_pollutant|discharged_pollutant) <id>\n" +
-                    "list (targets|pollutants|companies|discharges (<company_id>|<since_date> <until_date>)) // date format: dd/MM/yyyy\n" +
+                    "list (targets|pollutants|companies|discharges (<company_id>|<since_date> <until_date>)|\n..." +
+                    "...classified_pollutants <company>|discharged_pollutants <company>) // date format: dd/MM/yyyy\n" +
                     "show discharge <id>";
 
     public static void main(String... args) {
@@ -49,6 +55,8 @@ public class Launcher {
             Connection connection = dataSource.getConnection();
 
             //composing all needed objects
+
+            //list command
             PollutantRetriever pollutantRetriever = new DefaultPollutantRetriever(connection, DefaultPollutant::new);
             RetrievePollutantUseCase retrievePollutantUseCase = new DefaultRetrievePollutantUseCase(pollutantRetriever,
                     DefaultPollutantData::new);
@@ -66,12 +74,18 @@ public class Launcher {
                     DefaultDischargeData::new);
 
             ListView listView = new DefaultListView();
-            ListController listPresenter = new DefaultListController(listView, retrieveTargetUseCase,
+            ListController listController = new DefaultListController(listView, retrieveTargetUseCase,
                     retrievePollutantUseCase, retrieveCompanyUseCase, retrieveDischargeUseCase);
-            Command listCommand = new ListCommand(listPresenter);
+            Command listCommand = new ListCommand(listController);
+
+            //show command
+            ShowView showView = new DefaultShowView();
+            ShowController showController = new DefaultShowController(showView, retrieveDischargeUseCase);
+            Command showCommand = new ShowCommand(showController);
 
             MainLoop mainLoop = new DefaultMainLoop();
             mainLoop.addCommand(listCommand);
+            mainLoop.addCommand(showCommand);
 
             System.out.println(PROGRAM_GREETINGS);
 

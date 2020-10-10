@@ -1,4 +1,4 @@
-package tech.wcobalt.dokb_lab_2.ui.stdcommands.presenters;
+package tech.wcobalt.dokb_lab_2.ui.stdcommands.controllers;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -7,6 +7,7 @@ import tech.wcobalt.dokb_lab_2.application.data.CompanyData;
 import tech.wcobalt.dokb_lab_2.application.data.DischargeData;
 import tech.wcobalt.dokb_lab_2.application.data.PollutantData;
 import tech.wcobalt.dokb_lab_2.application.data.TargetData;
+import tech.wcobalt.dokb_lab_2.ui.stdcommands.views.ListView;
 
 import java.util.Date;
 import java.util.List;
