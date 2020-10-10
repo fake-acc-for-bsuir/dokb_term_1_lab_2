@@ -7,4 +7,6 @@ public interface ClassifiedPollutantPlacer {
     ClassifiedPollutant createClassifiedPollutant(ClassifiedPollutant classifiedPollutant) throws PersistenceException;
 
     void saveClassifiedPollutant(ClassifiedPollutant classifiedPollutant) throws PersistenceException;
+
+    void removeClassifiedPollutant(int id) throws PersistenceException;
 }

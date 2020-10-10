@@ -6,4 +6,6 @@ public interface DischargedPollutantPlacer {
     DischargedPollutant createDischargedPollutant(DischargedPollutant dischargedPollutant) throws PersistenceException;
 
     void saveDischargedPollutant(DischargedPollutant dischargedPollutant) throws PersistenceException;
+
+    void removeDischargedPollutant(int id) throws PersistenceException;
 }

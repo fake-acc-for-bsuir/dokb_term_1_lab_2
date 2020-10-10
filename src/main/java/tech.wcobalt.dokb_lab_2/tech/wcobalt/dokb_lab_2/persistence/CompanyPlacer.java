@@ -7,4 +7,6 @@ public interface CompanyPlacer {
     Company createCompany(Company company) throws PersistenceException;
 
     void saveCompany(Company company) throws PersistenceException;
+
+    void removeCompany(int id) throws PersistenceException;
 }

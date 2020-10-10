@@ -7,4 +7,6 @@ public interface DischargePlacer {
     Discharge createDischarge(Discharge discharge) throws PersistenceException;
 
     void saveDischarge(Discharge discharge) throws PersistenceException;
+
+    void removeDischarge(int id) throws PersistenceException;
 }
