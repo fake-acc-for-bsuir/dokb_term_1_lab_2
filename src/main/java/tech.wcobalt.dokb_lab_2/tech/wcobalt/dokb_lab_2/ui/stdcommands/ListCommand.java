@@ -3,7 +3,7 @@ package tech.wcobalt.dokb_lab_2.ui.stdcommands;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import tech.wcobalt.dokb_lab_2.ui.Command;
-import tech.wcobalt.dokb_lab_2.ui.stdcommands.presenters.ListController;
+import tech.wcobalt.dokb_lab_2.ui.stdcommands.controllers.ListController;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,13 +18,13 @@ public class ListCommand implements Command {
     private final String UNDEFINED_COMMAND = "The subcommand is undefined";
     private final String WRONG_FORMAT = "Wrong format of the command";
 
-    private boolean isPresenterInitialized = false;
+    private boolean isControllerInitialized = false;
 
     private static final Logger logger = LogManager.getLogger(ListCommand.class.getName());
-    private ListController listPresenter;
+    private ListController listController;
 
-    public ListCommand(ListController listPresenter) {
-        this.listPresenter = listPresenter;
+    public ListCommand(ListController listController) {
+        this.listController = listController;
     }
 
     @Override
@@ -34,8 +34,11 @@ public class ListCommand implements Command {
 
     @Override
     public void run(String commandString) {
-        if (!isPresenterInitialized)
-            listPresenter.init();
+        if (!isControllerInitialized) {
+            listController.init();
+
+            isControllerInitialized = true;
+        }
 
         String[] splitQuery = commandString.split(" ");
 
@@ -44,17 +47,17 @@ public class ListCommand implements Command {
 
             switch (subject) {
                 case TARGETS:
-                    listPresenter.listTargets();
+                    listController.listTargets();
 
                     break;
 
                 case POLLUTANTS:
-                    listPresenter.listPollutants();
+                    listController.listPollutants();
 
                     break;
 
                 case COMPANIES:
-                    listPresenter.listCompanies();
+                    listController.listCompanies();
 
                     break;
 
@@ -86,13 +89,13 @@ public class ListCommand implements Command {
                         Date since = simpleDateFormat.parse(splitQuery[3]);
                         Date until = simpleDateFormat.parse(splitQuery[4]);
 
-                        listPresenter.listDischargesByCompanyAndTime(company, since, until);
+                        listController.listDischargesByCompanyAndTime(company, since, until);
                     } catch (ParseException exc) {
                         logger.error("Input: " + splitQuery[3] + ", " + splitQuery[4], exc);
                         printWrongFormat();
                     }
                 } else if (splitQuery.length == 3)
-                    listPresenter.listDischargesByCompany(company);
+                    listController.listDischargesByCompany(company);
                 else
                     printWrongFormat();
             } catch (NumberFormatException exc) {

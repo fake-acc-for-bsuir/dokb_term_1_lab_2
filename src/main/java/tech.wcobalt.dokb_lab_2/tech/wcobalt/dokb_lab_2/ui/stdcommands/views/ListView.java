@@ -1,4 +1,4 @@
-package tech.wcobalt.dokb_lab_2.ui.stdcommands.presenters;
+package tech.wcobalt.dokb_lab_2.ui.stdcommands.views;
 
 import tech.wcobalt.dokb_lab_2.application.data.CompanyData;
 import tech.wcobalt.dokb_lab_2.application.data.DischargeData;
