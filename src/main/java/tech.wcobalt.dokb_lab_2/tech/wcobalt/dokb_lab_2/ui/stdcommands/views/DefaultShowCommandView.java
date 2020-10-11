@@ -7,7 +7,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 
-public class DefaultShowView implements ShowView {
+public class DefaultShowCommandView implements ShowCommandView {
     private DateFormat dateFormat;
     private NumberFormat numberFormat;
 

@@ -3,7 +3,7 @@ package tech.wcobalt.dokb_lab_2.ui.stdcommands;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import tech.wcobalt.dokb_lab_2.ui.Command;
-import tech.wcobalt.dokb_lab_2.ui.stdcommands.controllers.ListController;
+import tech.wcobalt.dokb_lab_2.ui.stdcommands.controllers.ListCommandController;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -23,10 +23,10 @@ public class ListCommand implements Command {
     private boolean isControllerInitialized = false;
 
     private static final Logger logger = LogManager.getLogger(ListCommand.class.getName());
-    private ListController listController;
+    private ListCommandController listCommandController;
 
-    public ListCommand(ListController listController) {
-        this.listController = listController;
+    public ListCommand(ListCommandController listCommandController) {
+        this.listCommandController = listCommandController;
     }
 
     @Override
@@ -37,7 +37,7 @@ public class ListCommand implements Command {
     @Override
     public void run(String commandString) {
         if (!isControllerInitialized) {
-            listController.init();
+            listCommandController.init();
 
             isControllerInitialized = true;
         }
@@ -48,9 +48,9 @@ public class ListCommand implements Command {
             String subject = splitQuery[1].toLowerCase();
 
             switch (subject) {
-                case TARGETS -> listController.listTargets();
-                case POLLUTANTS -> listController.listPollutants();
-                case COMPANIES -> listController.listCompanies();
+                case TARGETS -> listCommandController.listTargets();
+                case POLLUTANTS -> listCommandController.listPollutants();
+                case COMPANIES -> listCommandController.listCompanies();
                 case DISCHARGES -> handleDischarges(splitQuery);
                 case CLASSIFIED_POLLUTANTS -> handleClassifiedPollutants(splitQuery);
                 case DISCHARGED_POLLUTANTS -> handleDischargedPollutant(splitQuery);
@@ -65,7 +65,7 @@ public class ListCommand implements Command {
             try {
                 int company = Integer.parseInt(splitQuery[2]);
 
-                listController.listClassifiedPollutantsByCompany(company);
+                listCommandController.listClassifiedPollutantsByCompany(company);
             } catch (NumberFormatException exc) {
                 logger.error("Input: " + splitQuery[2], exc);
 
@@ -80,7 +80,7 @@ public class ListCommand implements Command {
             try {
                 int discharge = Integer.parseInt(splitQuery[2]);
 
-                listController.listDischargedPollutantsByDischarge(discharge);
+                listCommandController.listDischargedPollutantsByDischarge(discharge);
             } catch (NumberFormatException exc) {
                 logger.error("Input: " + splitQuery[2], exc);
 
@@ -106,13 +106,13 @@ public class ListCommand implements Command {
                         Date since = simpleDateFormat.parse(splitQuery[3]);
                         Date until = simpleDateFormat.parse(splitQuery[4]);
 
-                        listController.listDischargesByCompanyAndTime(company, since, until);
+                        listCommandController.listDischargesByCompanyAndTime(company, since, until);
                     } catch (ParseException exc) {
                         logger.error("Input: " + splitQuery[3] + ", " + splitQuery[4], exc);
                         printWrongFormat();
                     }
                 } else if (splitQuery.length == 3)
-                    listController.listDischargesByCompany(company);
+                    listCommandController.listDischargesByCompany(company);
                 else
                     printWrongFormat();
             } catch (NumberFormatException exc) {

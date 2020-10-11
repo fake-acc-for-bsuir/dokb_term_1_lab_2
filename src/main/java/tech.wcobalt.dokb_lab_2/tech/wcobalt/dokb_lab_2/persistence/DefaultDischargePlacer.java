@@ -85,6 +85,8 @@ public class DefaultDischargePlacer implements DischargePlacer {
         try {
             PreparedStatement statement = connection.prepareStatement("DELETE FROM `discharges` WHERE `id` = ?;");
 
+            statement.setInt(1, id);
+
             statement.executeUpdate();
         } catch (SQLException exc) {
             String mes = "Unable to remove data from MySQL";
