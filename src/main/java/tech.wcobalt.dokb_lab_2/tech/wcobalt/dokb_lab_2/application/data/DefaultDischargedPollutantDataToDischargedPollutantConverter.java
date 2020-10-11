@@ -1,0 +1,16 @@
+package tech.wcobalt.dokb_lab_2.application.data;
+
+import tech.wcobalt.dokb_lab_2.domain.DischargedPollutant;
+import tech.wcobalt.dokb_lab_2.domain.factories.DischargedPollutantFactory;
+
+public class DefaultDischargedPollutantDataToDischargedPollutantConverter implements DischargedPollutantDataToDischargedPollutantConverter {
+    private DischargedPollutantFactory dischargedPollutantFactory;
+
+    @Override
+    public DischargedPollutant convertDischargedPollutantDataToDischargedPollutant(DischargedPollutantData dischargedPollutantData) {
+        return dischargedPollutantFactory.createDischargedPollutant(dischargedPollutantData.getId(),
+                dischargedPollutantData.getDischarge(), dischargedPollutantData.getPollutant(),
+                dischargedPollutantData.getConcentration(), dischargedPollutantData.getNcc(),
+                dischargedPollutantData.getBackgroundConcentration(), dischargedPollutantData.getMpc());
+    }
+}
