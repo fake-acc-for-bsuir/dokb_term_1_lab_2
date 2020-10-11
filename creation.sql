@@ -1,3 +1,5 @@
+-- it'd be good to add ON DELETE triggers
+
 CREATE TABLE IF NOT EXISTS `companies` (
     `id` INT PRIMARY KEY AUTO_INCREMENT,
     `name` VARCHAR(32) NOT NULL COLLATE `utf8_general_ci`

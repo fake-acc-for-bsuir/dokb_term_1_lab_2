@@ -51,7 +51,7 @@ public class DefaultListCommandView implements ListCommandView {
     public void showClassifiedPollutant(ClassifiedPollutantData classifiedPollutantData) {
         System.out.println("ID: " + classifiedPollutantData.getId() +
                 ", POLL: " + classifiedPollutantData.getPollutant() +
-                ", COMP: " + classifiedPollutantData.getCompany() +
+                ", CMPN: " + classifiedPollutantData.getCompany() +
                 ", DNCL: " + classifiedPollutantData.getDangerClass() +
                 ", LFVG: " + classifiedPollutantData.getLfvGroup());
     }

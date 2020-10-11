@@ -9,10 +9,7 @@ import tech.wcobalt.dokb_lab_2.persistence.*;
 import tech.wcobalt.dokb_lab_2.ui.Command;
 import tech.wcobalt.dokb_lab_2.ui.DefaultMainLoop;
 import tech.wcobalt.dokb_lab_2.ui.MainLoop;
-import tech.wcobalt.dokb_lab_2.ui.stdcommands.CreateCommand;
-import tech.wcobalt.dokb_lab_2.ui.stdcommands.ListCommand;
-import tech.wcobalt.dokb_lab_2.ui.stdcommands.RemoveCommand;
-import tech.wcobalt.dokb_lab_2.ui.stdcommands.ShowCommand;
+import tech.wcobalt.dokb_lab_2.ui.stdcommands.*;
 import tech.wcobalt.dokb_lab_2.ui.stdcommands.controllers.*;
 import tech.wcobalt.dokb_lab_2.ui.stdcommands.views.*;
 
@@ -127,12 +124,33 @@ public class Launcher {
 
             Command createCommand = new CreateCommand(createCommandController);
 
+            //edit command
+            ChangeCompanyUseCase changeCompanyUseCase = new DefaultChangeCompanyUseCase(companyPlacer,
+                    new DefaultCompanyDataToCompanyConverter(DefaultCompany::new));
+            ChangeDischargeUseCase changeDischargeUseCase = new DefaultChangeDischargeUseCase(dischargePlacer,
+                    new DefaultDischargeDataToDischargeConverter(DefaultDischarge::new));
+            ChangeClassifiedPollutantUseCase changeClassifiedPollutantUseCase
+                    = new DefaultChangeClassifiedPollutantUseCase(classifiedPollutantPlacer,
+                    new DefaultClassifiedPollutantDataToClassifiedPollutantConverter(DefaultClassifiedPollutant::new));
+            ChangeDischargedPollutantUseCase changeDischargedPollutantUseCase
+                    = new DefaultChangeDischargedPollutantUseCase(dischargedPollutantPlacer,
+                    new DefaultDischargedPollutantDataToDischargedPollutantConverter(DefaultDischargedPollutant::new));
+
+            EditCommandView editCommandView = new DefaultEditCommandView(new DefaultCreateCommandView());
+            EditCommandController editCommandController = new DefaultEditCommandController(editCommandView,
+                    changeCompanyUseCase, changeDischargeUseCase, changeClassifiedPollutantUseCase,
+                    changeDischargedPollutantUseCase, retrieveCompanyUseCase, retrieveDischargeUseCase,
+                    retrieveClassifiedPollutantUseCase, retrieveDischargedPollutantUseCase);
+
+            Command editCommand = new EditCommand(editCommandController);
+
             //main loop
             MainLoop mainLoop = new DefaultMainLoop();
             mainLoop.addCommand(listCommand);
             mainLoop.addCommand(showCommand);
             mainLoop.addCommand(removeCommand);
             mainLoop.addCommand(createCommand);
+            mainLoop.addCommand(editCommand);
 
             System.out.println(PROGRAM_GREETINGS);
 

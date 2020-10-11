@@ -19,8 +19,6 @@ public interface DischargedPollutant {
      * in a persistence storage, it's supposed to change the id field only in context of java*/
     void setId(int id);
 
-    /**this method is not supposed to be used with purpose of change the discharge's field
-     * in a persistence storage, it's supposed to change the discharge's field only in context of java*/
     void setDischarge(int discharge);
 
     void setPollutant(int pollutant);
