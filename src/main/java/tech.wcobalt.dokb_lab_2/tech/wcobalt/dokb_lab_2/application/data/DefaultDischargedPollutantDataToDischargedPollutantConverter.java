@@ -6,6 +6,10 @@ import tech.wcobalt.dokb_lab_2.domain.factories.DischargedPollutantFactory;
 public class DefaultDischargedPollutantDataToDischargedPollutantConverter implements DischargedPollutantDataToDischargedPollutantConverter {
     private DischargedPollutantFactory dischargedPollutantFactory;
 
+    public DefaultDischargedPollutantDataToDischargedPollutantConverter(DischargedPollutantFactory dischargedPollutantFactory) {
+        this.dischargedPollutantFactory = dischargedPollutantFactory;
+    }
+
     @Override
     public DischargedPollutant convertDischargedPollutantDataToDischargedPollutant(DischargedPollutantData dischargedPollutantData) {
         return dischargedPollutantFactory.createDischargedPollutant(dischargedPollutantData.getId(),

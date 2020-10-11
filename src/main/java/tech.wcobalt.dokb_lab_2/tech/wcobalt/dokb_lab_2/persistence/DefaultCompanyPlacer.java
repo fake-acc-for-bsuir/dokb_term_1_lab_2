@@ -4,10 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import tech.wcobalt.dokb_lab_2.domain.Company;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class DefaultCompanyPlacer implements CompanyPlacer {
     private Connection connection;
@@ -20,7 +17,8 @@ public class DefaultCompanyPlacer implements CompanyPlacer {
     @Override
     public Company createCompany(Company company) throws PersistenceException {
         try {
-            PreparedStatement statement = connection.prepareStatement("INSERT INTO `companies` (`name`) VALUES ?;");
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO `companies` (`name`) VALUES (?);",
+                    Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, company.getName());
 
             statement.executeUpdate();

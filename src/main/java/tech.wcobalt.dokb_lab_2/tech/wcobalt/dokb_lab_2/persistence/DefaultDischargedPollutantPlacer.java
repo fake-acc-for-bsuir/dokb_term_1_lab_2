@@ -4,10 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import tech.wcobalt.dokb_lab_2.domain.DischargedPollutant;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class DefaultDischargedPollutantPlacer implements DischargedPollutantPlacer {
     private Connection connection;
@@ -22,7 +19,7 @@ public class DefaultDischargedPollutantPlacer implements DischargedPollutantPlac
         try {
             PreparedStatement statement = connection.prepareStatement(
                     "INSERT INTO `discharge_pollutants` (`discharge`, `pollutant`, `concentration`, `ncc`," +
-                            " `background_concentration`, `mpc`) VALUES (?, ?, ?, ?, ?, ?);");
+                            " `background_concentration`, `mpc`) VALUES (?, ?, ?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
             statement.setInt(1, dischargedPollutant.getDischarge());
             statement.setInt(2, dischargedPollutant.getPollutant());
             statement.setDouble(3, dischargedPollutant.getConcentration());

@@ -18,7 +18,8 @@ public class DefaultClassifiedPollutantPlacer implements ClassifiedPollutantPlac
     public ClassifiedPollutant createClassifiedPollutant(ClassifiedPollutant classifiedPollutant) throws PersistenceException {
         try {
             PreparedStatement statement = connection.prepareStatement("INSERT INTO `company_pollutants_classes`" +
-                    " (`company`, `pollutant`, `danger_class`, `lfv_group`) VALUES (?, ?, ?, ?);");
+                    " (`company`, `pollutant`, `danger_class`, `lfv_group`) VALUES (?, ?, ?, ?);",
+                    Statement.RETURN_GENERATED_KEYS);
             statement.setInt(1, classifiedPollutant.getCompany());
             statement.setInt(2, classifiedPollutant.getPollutant());
             statement.setString(3, classifiedPollutant.getDangerClass());

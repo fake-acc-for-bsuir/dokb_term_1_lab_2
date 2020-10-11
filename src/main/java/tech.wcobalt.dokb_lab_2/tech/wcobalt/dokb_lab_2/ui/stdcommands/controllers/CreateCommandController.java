@@ -4,12 +4,12 @@ import tech.wcobalt.dokb_lab_2.ui.Controller;
 
 /*actually it violates SRP and ISP but this is just a lab and i'm so lazy.
  * So in a good way this must be split.*/
-public interface RemoveCommandController extends Controller {
-    void removeCompany(int id);
+public interface CreateCommandController extends Controller {
+    void createCompany();
 
-    void removeDischarge(int id);
+    void createDischarge();
 
-    void removeClassifiedPollutant(int id);
+    void createClassifiedPollutant();
 
-    void removeDischargedPollutant(int id);
+    void createDischargedPollutant();
 }
