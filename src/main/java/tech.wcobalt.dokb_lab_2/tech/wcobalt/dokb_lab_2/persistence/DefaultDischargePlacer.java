@@ -19,7 +19,7 @@ public class DefaultDischargePlacer implements DischargePlacer {
         try {
             PreparedStatement statement = connection.prepareStatement("INSERT INTO `discharges` (`name`, `date`, `company`," +
                     " `diameter`, `minimal_water_speed`, `wastewater_consumption`, `angle`, `distance_to_surface`," +
-                    " `distance_to_shore`, `used_target`) VALUES (?, ?, ?, ?, ?, ? ,?, ?, ?, ?);");
+                    " `distance_to_shore`, `used_target`) VALUES (?, ?, ?, ?, ?, ? ,?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, discharge.getName());
             statement.setDate(2, new Date(discharge.getDate().getTime()));
             statement.setInt(3, discharge.getCompany());

@@ -9,6 +9,7 @@ import tech.wcobalt.dokb_lab_2.persistence.*;
 import tech.wcobalt.dokb_lab_2.ui.Command;
 import tech.wcobalt.dokb_lab_2.ui.DefaultMainLoop;
 import tech.wcobalt.dokb_lab_2.ui.MainLoop;
+import tech.wcobalt.dokb_lab_2.ui.stdcommands.CreateCommand;
 import tech.wcobalt.dokb_lab_2.ui.stdcommands.ListCommand;
 import tech.wcobalt.dokb_lab_2.ui.stdcommands.RemoveCommand;
 import tech.wcobalt.dokb_lab_2.ui.stdcommands.ShowCommand;
@@ -106,11 +107,32 @@ public class Launcher {
 
             Command removeCommand = new RemoveCommand(removeCommandController);
 
+            //create command
+            CreateCompanyUseCase createCompanyUseCase = new DefaultCreateCompanyUseCase(companyPlacer,
+                    new DefaultCompanyDataToCompanyConverter(DefaultCompany::new));
+            CreateDischargeUseCase createDischargeUseCase = new DefaultCreateDischargeUseCase(dischargePlacer,
+                    new DefaultDischargeDataToDischargeConverter(DefaultDischarge::new));
+            CreateClassifiedPollutantUseCase createClassifiedPollutantUseCase
+                    = new DefaultCreateClassifiedPollutantUseCase(classifiedPollutantPlacer,
+                    new DefaultClassifiedPollutantDataToClassifiedPollutantConverter(DefaultClassifiedPollutant::new));
+            CreateDischargedPollutantUseCase createDischargedPollutantUseCase
+                    = new DefaultCreateDischargedPollutantUseCase(dischargedPollutantPlacer,
+                    new DefaultDischargedPollutantDataToDischargedPollutantConverter(DefaultDischargedPollutant::new));
+
+            CreateCommandView createCommandView = new DefaultCreateCommandView();
+            CreateCommandController createCommandController = new DefaultCreateCommandController(createCommandView,
+                    createCompanyUseCase, createDischargeUseCase, createClassifiedPollutantUseCase,
+                    createDischargedPollutantUseCase, DefaultCompanyData::new, DefaultDischargeData::new,
+                    DefaultClassifiedPollutantData::new, DefaultDischargedPollutantData::new);
+
+            Command createCommand = new CreateCommand(createCommandController);
+
             //main loop
             MainLoop mainLoop = new DefaultMainLoop();
             mainLoop.addCommand(listCommand);
             mainLoop.addCommand(showCommand);
             mainLoop.addCommand(removeCommand);
+            mainLoop.addCommand(createCommand);
 
             System.out.println(PROGRAM_GREETINGS);
 

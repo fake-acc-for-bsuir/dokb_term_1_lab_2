@@ -7,6 +7,7 @@ import tech.wcobalt.dokb_lab_2.ui.stdcommands.views.RemoveCommandView;
 
 public class DefaultRemoveCommandController implements RemoveCommandController {
     private RemoveCommandView removeCommandView;
+
     private RemoveCompanyUseCase removeCompanyUseCase;
     private RemoveDischargeUseCase removeDischargeUseCase;
     private RemoveClassifiedPollutantUseCase removeClassifiedPollutantUseCase;

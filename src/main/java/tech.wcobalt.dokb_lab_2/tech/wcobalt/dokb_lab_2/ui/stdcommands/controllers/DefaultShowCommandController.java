@@ -9,6 +9,7 @@ import tech.wcobalt.dokb_lab_2.ui.stdcommands.views.ShowCommandView;
 
 public class DefaultShowCommandController implements ShowCommandController {
     private ShowCommandView showCommandView;
+
     private RetrieveDischargeUseCase retrieveDischargeUseCase;
 
     private static final Logger logger = LogManager.getLogger(DefaultShowCommandController.class.getName());

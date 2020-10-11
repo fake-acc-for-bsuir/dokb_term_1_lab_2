@@ -7,10 +7,10 @@ import tech.wcobalt.dokb_lab_2.ui.stdcommands.controllers.RemoveCommandControlle
 
 public class RemoveCommand implements Command {
     private static final String COMMAND = "remove";
-    private final String COMPANIES = "company";
-    private final String DISCHARGES = "discharge";
-    private final String CLASSIFIED_POLLUTANTS = "classified_pollutant";
-    private final String DISCHARGED_POLLUTANTS = "discharged_pollutant";
+    private final String COMPANY = "company";
+    private final String DISCHARGE = "discharge";
+    private final String CLASSIFIED_POLLUTANT = "classified_pollutant";
+    private final String DISCHARGED_POLLUTANT = "discharged_pollutant";
     private final String UNDEFINED_COMMAND = "The subcommand is undefined";
     private final String WRONG_FORMAT = "Wrong format of the command";
 
@@ -45,10 +45,10 @@ public class RemoveCommand implements Command {
                 int id = Integer.parseInt(splitQuery[2]);
 
                 switch (subject) {
-                    case COMPANIES -> removeCommandController.removeCompany(id);
-                    case DISCHARGES -> removeCommandController.removeDischarge(id);
-                    case CLASSIFIED_POLLUTANTS -> removeCommandController.removeClassifiedPollutant(id);
-                    case DISCHARGED_POLLUTANTS -> removeCommandController.removeDischargedPollutant(id);
+                    case COMPANY -> removeCommandController.removeCompany(id);
+                    case DISCHARGE -> removeCommandController.removeDischarge(id);
+                    case CLASSIFIED_POLLUTANT -> removeCommandController.removeClassifiedPollutant(id);
+                    case DISCHARGED_POLLUTANT -> removeCommandController.removeDischargedPollutant(id);
                     default -> printUndefinedCommand();
                 }
             } catch (NumberFormatException exc) {

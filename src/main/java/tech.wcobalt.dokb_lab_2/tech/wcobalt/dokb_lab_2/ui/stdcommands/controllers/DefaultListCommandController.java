@@ -11,6 +11,7 @@ import java.util.List;
 
 public class DefaultListCommandController implements ListCommandController {
     private ListCommandView listCommandView;
+
     private RetrieveTargetUseCase retrieveTargetUseCase;
     private RetrievePollutantUseCase retrievePollutantUseCase;
     private RetrieveCompanyUseCase retrieveCompanyUseCase;
