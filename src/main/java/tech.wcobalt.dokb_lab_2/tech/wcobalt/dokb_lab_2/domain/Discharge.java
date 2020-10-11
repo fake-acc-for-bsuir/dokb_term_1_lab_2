@@ -25,6 +25,8 @@ public interface Discharge {
 
     double getDistanceToShore();
 
+    /**this method is not supposed to be used with purpose of change the id field
+     * in a persistence storage, it's supposed to change the id field only in context of java*/
     void setId(int id);
 
     void setCompany(int company);
