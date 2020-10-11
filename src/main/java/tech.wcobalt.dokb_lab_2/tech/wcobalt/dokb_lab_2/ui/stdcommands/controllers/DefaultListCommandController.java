@@ -4,14 +4,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import tech.wcobalt.dokb_lab_2.application.*;
 import tech.wcobalt.dokb_lab_2.application.data.*;
-import tech.wcobalt.dokb_lab_2.domain.ClassifiedPollutant;
-import tech.wcobalt.dokb_lab_2.ui.stdcommands.views.ListView;
+import tech.wcobalt.dokb_lab_2.ui.stdcommands.views.ListCommandView;
 
 import java.util.Date;
 import java.util.List;
 
-public class DefaultListController implements ListController {
-    private ListView listView;
+public class DefaultListCommandController implements ListCommandController {
+    private ListCommandView listCommandView;
     private RetrieveTargetUseCase retrieveTargetUseCase;
     private RetrievePollutantUseCase retrievePollutantUseCase;
     private RetrieveCompanyUseCase retrieveCompanyUseCase;
@@ -19,15 +18,15 @@ public class DefaultListController implements ListController {
     private RetrieveClassifiedPollutantUseCase retrieveClassifiedPollutantUseCase;
     private RetrieveDischargedPollutantUseCase retrieveDischargedPollutantUseCase;
 
-    private static final Logger logger = LogManager.getLogger(DefaultListController.class.getName());
+    private static final Logger logger = LogManager.getLogger(DefaultListCommandController.class.getName());
 
-    public DefaultListController(ListView listView, RetrieveTargetUseCase retrieveTargetUseCase,
-                                 RetrievePollutantUseCase retrievePollutantUseCase,
-                                 RetrieveCompanyUseCase retrieveCompanyUseCase,
-                                 RetrieveDischargeUseCase retrieveDischargeUseCase,
-                                 RetrieveClassifiedPollutantUseCase retrieveClassifiedPollutantUseCase,
-                                 RetrieveDischargedPollutantUseCase retrieveDischargedPollutantUseCase) {
-        this.listView = listView;
+    public DefaultListCommandController(ListCommandView listCommandView, RetrieveTargetUseCase retrieveTargetUseCase,
+                                        RetrievePollutantUseCase retrievePollutantUseCase,
+                                        RetrieveCompanyUseCase retrieveCompanyUseCase,
+                                        RetrieveDischargeUseCase retrieveDischargeUseCase,
+                                        RetrieveClassifiedPollutantUseCase retrieveClassifiedPollutantUseCase,
+                                        RetrieveDischargedPollutantUseCase retrieveDischargedPollutantUseCase) {
+        this.listCommandView = listCommandView;
         this.retrieveTargetUseCase = retrieveTargetUseCase;
         this.retrievePollutantUseCase = retrievePollutantUseCase;
         this.retrieveCompanyUseCase = retrieveCompanyUseCase;
@@ -38,7 +37,7 @@ public class DefaultListController implements ListController {
 
     @Override
     public void init() {
-        listView.init();
+        listCommandView.init();
     }
 
     @Override
@@ -47,7 +46,7 @@ public class DefaultListController implements ListController {
             List<TargetData> targets = retrieveTargetUseCase.retrieveAllTargets();
 
             for (TargetData target : targets)
-                listView.showTarget(target);
+                listCommandView.showTarget(target);
         } catch (ApplicationException exc) {
             logger.error("Unable to retrieve targets", exc);
         }
@@ -59,7 +58,7 @@ public class DefaultListController implements ListController {
             List<PollutantData> pollutants = retrievePollutantUseCase.retrieveAllPollutants();
 
             for (PollutantData pollutant : pollutants)
-                listView.showPollutant(pollutant);
+                listCommandView.showPollutant(pollutant);
         } catch (ApplicationException exc) {
             logger.error("Unable to retrieve pollutants", exc);
         }
@@ -71,7 +70,7 @@ public class DefaultListController implements ListController {
             List<CompanyData> companies = retrieveCompanyUseCase.retrieveAllCompanies();
 
             for (CompanyData company : companies)
-                listView.showCompany(company);
+                listCommandView.showCompany(company);
         } catch (ApplicationException exc) {
             logger.error("Unable to retrieve companies", exc);
         }
@@ -107,7 +106,7 @@ public class DefaultListController implements ListController {
                     = retrieveClassifiedPollutantUseCase.retrieveClassifiedPollutantsByCompany(company);
 
             for (ClassifiedPollutantData classifiedPollutantData : classifiedPollutants)
-                listView.showClassifiedPollutant(classifiedPollutantData);
+                listCommandView.showClassifiedPollutant(classifiedPollutantData);
 
         } catch (ApplicationException exc) {
             logger.error("Unable to retrieve classified pollutants by company", exc);
@@ -121,7 +120,7 @@ public class DefaultListController implements ListController {
                     = retrieveDischargedPollutantUseCase.retrieveDischargedPollutantsByDischarge(discharge);
 
             for (DischargedPollutantData dischargedPollutant : dischargedPollutants)
-                listView.showDischargedPollutant(dischargedPollutant);
+                listCommandView.showDischargedPollutant(dischargedPollutant);
 
         } catch (ApplicationException exc) {
             logger.error("Unable to retrieve discharged pollutants by discharge", exc);
@@ -130,6 +129,6 @@ public class DefaultListController implements ListController {
 
     private void showDischarges(List<DischargeData> discharges) {
         for (DischargeData discharge : discharges)
-            listView.showDischarge(discharge);
+            listCommandView.showDischarge(discharge);
     }
 }

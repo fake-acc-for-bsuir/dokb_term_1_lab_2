@@ -10,15 +10,10 @@ import tech.wcobalt.dokb_lab_2.ui.Command;
 import tech.wcobalt.dokb_lab_2.ui.DefaultMainLoop;
 import tech.wcobalt.dokb_lab_2.ui.MainLoop;
 import tech.wcobalt.dokb_lab_2.ui.stdcommands.ListCommand;
+import tech.wcobalt.dokb_lab_2.ui.stdcommands.RemoveCommand;
 import tech.wcobalt.dokb_lab_2.ui.stdcommands.ShowCommand;
-import tech.wcobalt.dokb_lab_2.ui.stdcommands.controllers.DefaultListController;
-import tech.wcobalt.dokb_lab_2.ui.stdcommands.controllers.DefaultShowController;
-import tech.wcobalt.dokb_lab_2.ui.stdcommands.controllers.ShowController;
-import tech.wcobalt.dokb_lab_2.ui.stdcommands.views.DefaultListView;
-import tech.wcobalt.dokb_lab_2.ui.stdcommands.controllers.ListController;
-import tech.wcobalt.dokb_lab_2.ui.stdcommands.views.DefaultShowView;
-import tech.wcobalt.dokb_lab_2.ui.stdcommands.views.ListView;
-import tech.wcobalt.dokb_lab_2.ui.stdcommands.views.ShowView;
+import tech.wcobalt.dokb_lab_2.ui.stdcommands.controllers.*;
+import tech.wcobalt.dokb_lab_2.ui.stdcommands.views.*;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -79,21 +74,43 @@ public class Launcher {
                     = new DefaultRetrieveDischargedPollutantUseCase(dischargedPollutantRetriever,
                     DefaultDischargedPollutantData::new);
 
-            ListView listView = new DefaultListView();
-            ListController listController = new DefaultListController(listView, retrieveTargetUseCase,
+            ListCommandView listCommandView = new DefaultListCommandView();
+            ListCommandController listCommandController = new DefaultListCommandController(listCommandView, retrieveTargetUseCase,
                     retrievePollutantUseCase, retrieveCompanyUseCase, retrieveDischargeUseCase,
                     retrieveClassifiedPollutantUseCase, retrieveDischargedPollutantUseCase);
-            Command listCommand = new ListCommand(listController);
+            Command listCommand = new ListCommand(listCommandController);
 
             //show command
-            ShowView showView = new DefaultShowView();
-            ShowController showController = new DefaultShowController(showView, retrieveDischargeUseCase);
-            Command showCommand = new ShowCommand(showController);
+            ShowCommandView showCommandView = new DefaultShowCommandView();
+            ShowCommandController showCommandController = new DefaultShowCommandController(showCommandView, retrieveDischargeUseCase);
+            Command showCommand = new ShowCommand(showCommandController);
+
+            //remove command
+            CompanyPlacer companyPlacer = new DefaultCompanyPlacer(connection);
+            RemoveCompanyUseCase removeCompanyUseCase = new DefaultRemoveCompanyUseCase(companyPlacer);
+
+            DischargePlacer dischargePlacer = new DefaultDischargePlacer(connection);
+            RemoveDischargeUseCase dischargeUseCase = new DefaultRemoveDischargeUseCase(dischargePlacer);
+
+            ClassifiedPollutantPlacer classifiedPollutantPlacer = new DefaultClassifiedPollutantPlacer(connection);
+            RemoveClassifiedPollutantUseCase removeClassifiedPollutantUseCase
+                    = new DefaultRemoveClassifiedPollutantUseCase(classifiedPollutantPlacer);
+
+            DischargedPollutantPlacer dischargedPollutantPlacer = new DefaultDischargedPollutantPlacer(connection);
+            RemoveDischargedPollutantUseCase dischargedPollutantUseCase
+                    = new DefaultRemoveDischargedPollutantUseCase(dischargedPollutantPlacer);
+
+            RemoveCommandView removeCommandView = new DefaultRemoveCommandView();
+            RemoveCommandController removeCommandController = new DefaultRemoveCommandController(removeCommandView,
+                    removeCompanyUseCase, dischargeUseCase, removeClassifiedPollutantUseCase, dischargedPollutantUseCase);
+
+            Command removeCommand = new RemoveCommand(removeCommandController);
 
             //main loop
             MainLoop mainLoop = new DefaultMainLoop();
             mainLoop.addCommand(listCommand);
             mainLoop.addCommand(showCommand);
+            mainLoop.addCommand(removeCommand);
 
             System.out.println(PROGRAM_GREETINGS);
 

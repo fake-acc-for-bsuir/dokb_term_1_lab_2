@@ -6,7 +6,7 @@ import java.util.Date;
 
 /*actually it violates SRP and ISP but this is just a lab and i'm so lazy.
 * So in a good way this must be split.*/
-public interface ListController extends Controller {
+public interface ListCommandController extends Controller {
     void listTargets();
 
     void listPollutants();

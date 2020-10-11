@@ -3,7 +3,7 @@ package tech.wcobalt.dokb_lab_2.ui.stdcommands;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import tech.wcobalt.dokb_lab_2.ui.Command;
-import tech.wcobalt.dokb_lab_2.ui.stdcommands.controllers.ShowController;
+import tech.wcobalt.dokb_lab_2.ui.stdcommands.controllers.ShowCommandController;
 
 public class ShowCommand implements Command {
     private static final String COMMAND = "show";
@@ -14,10 +14,10 @@ public class ShowCommand implements Command {
     private boolean isControllerInitialized = false;
 
     private static final Logger logger = LogManager.getLogger(ShowCommand.class.getName());
-    private ShowController showController;
+    private ShowCommandController showCommandController;
 
-    public ShowCommand(ShowController showController) {
-        this.showController = showController;
+    public ShowCommand(ShowCommandController showCommandController) {
+        this.showCommandController = showCommandController;
     }
 
     @Override
@@ -28,7 +28,7 @@ public class ShowCommand implements Command {
     @Override
     public void run(String commandString) {
         if (!isControllerInitialized) {
-            showController.init();
+            showCommandController.init();
 
             isControllerInitialized = true;
         }
@@ -42,7 +42,7 @@ public class ShowCommand implements Command {
                 try {
                     int id = Integer.parseInt(splitQuery[2]);
 
-                    showController.showDischargesByCompany(id);
+                    showCommandController.showDischargesByCompany(id);
                 } catch (NumberFormatException exc) {
                     logger.error("Input: " + splitQuery[2], exc);
 
