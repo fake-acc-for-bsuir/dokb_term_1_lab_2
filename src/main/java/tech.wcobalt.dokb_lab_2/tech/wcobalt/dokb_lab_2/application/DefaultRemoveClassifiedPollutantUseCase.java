@@ -19,7 +19,7 @@ public class DefaultRemoveClassifiedPollutantUseCase implements RemoveClassified
         try {
             classifiedPollutantPlacer.removeClassifiedPollutant(classifiedPollutant);
         } catch (PersistenceException exc) {
-            String mes = "Unable to retrieve data from the persistence layer";
+            String mes = "Unable to remove data from the persistence layer";
 
             logger.error(mes, exc);
 
